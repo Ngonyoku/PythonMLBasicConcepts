@@ -491,3 +491,155 @@ Square of df dataframe
 8  0.220415  0.744290  0.453174  2.093968
 9  0.554418  0.165053  1.734529  0.065558
 '''
+print("\n\n")
+# Adding/Removing columns and rows to DataFrames
+sample_data = {
+    "name": ['Ngonyoku', 'Cate', 'Kimani', 'Mary'],
+    "year": [2018, 2012, 2018, 2016],
+    "reports": [5, 20, 14, 16]
+}
+
+df4 = pd.DataFrame(
+    data=sample_data,
+    index=['Nairobi', 'Muranga', 'Nyahururu', 'Kiambu']
+)
+print(df4)
+'''
+The output of the DataFrame is as follows:
+               name  year  reports
+Nairobi    Ngonyoku  2018        5
+Muranga        Cate  2012       20
+Nyahururu    Kimani  2018       14
+Kiambu         Mary  2016       16
+'''
+print("\n")
+schools = np.array(["Lenana", "Alliance", "Mangu", "Mugoiri"])
+df4["school"] = schools  # Add a Column
+print(df4)
+'''
+A new Column called 'School' is added:
+               name  year  reports    school
+Nairobi    Ngonyoku  2018        5    Lenana
+Muranga        Cate  2012       20  Alliance
+Nyahururu    Kimani  2018       14     Mangu
+Kiambu         Mary  2016       16   Mugoiri
+'''
+print("\n")
+
+print(df4.drop(['Nyahururu', 'Kiambu']))  # Removing the rows Nyahururu and Kiambu
+'''
+Output:
+             name  year  reports    school
+Nairobi  Ngonyoku  2018        5    Lenana
+Muranga      Cate  2012       20  Alliance
+'''
+
+'''
+Like the 'sort _ index()' function, by default the 'drop()' function does not
+affect the original DataFrame. Use the 'inplace' parameter if you want to modify the
+original DataFrame.
+'''
+print("\n")
+# print(df4.drop(['Nyahururu', 'Kiambu'], inplace=True))  # This will modify the DataFrame
+
+print(df4[df4.year != 2018])  # Drop Row based on it's column value
+'''
+The rows whose years read 2018 were dropped
+Output:
+         name  year  reports    school
+Muranga  Cate  2012       20  Alliance
+Kiambu   Mary  2016       16   Mugoiri
+'''
+print("\n")
+
+print(df4.drop(df4.index[0]))  # Drop rows based on their Index
+'''
+Row with Index 0 was dropped
+Output:
+             name  year  reports    school
+Muranga      Cate  2012       20  Alliance
+Nyahururu  Kimani  2018       14     Mangu
+Kiambu       Mary  2016       16   Mugoiri
+'''
+
+'''
+To remove a column, you will need to specify the 'axis' parameter in the 'drop()' function 
+'''
+print("\n")
+print(df4.drop('year', axis=1))  # This will drop the year column in our data frame
+'''
+Output:
+               name  reports    school
+Nairobi    Ngonyoku        5    Lenana
+Muranga        Cate       20  Alliance
+Nyahururu    Kimani       14     Mangu
+Kiambu         Mary       16   Mugoiri
+'''
+
+'''
+You can also drop column by number. You will call the 'column' property from your dataframe and specify the column 
+number.
+Don't forget to specify the axis
+'''
+print("\n")
+
+print(df4.drop(df4.columns[0], axis=1))  # We have dropped the name column since it's in position 0
+'''
+Output:
+           year  reports    school
+Nairobi    2018        5    Lenana
+Muranga    2012       20  Alliance
+Nyahururu  2018       14     Mangu
+Kiambu     2016       16   Mugoiri
+'''
+
+'''
+You can also drop multiple columns at once. We need to specify the column numbers in 2D array format
+'''
+print("\n")
+
+print(df4.drop(df4.columns[[0, 2]], axis=1))  # Drop name and reports columns
+'''
+Output:
+           year  reports    school
+Nairobi    2018        5    Lenana
+Muranga    2012       20  Alliance
+Nyahururu  2018       14     Mangu
+Kiambu     2016       16   Mugoiri
+'''
+
+# Generating GrossTabs
+'''
+GrossTabs are used to show the relationship between variables
+'''
+print("\n")
+sample_data2 = {
+    "Gender": ['Male', 'Male', 'Female', 'Female', 'Female'],
+    "Team": [1, 2, 3, 3, 1]
+}
+df5 = pd.DataFrame(sample_data2)
+print(df5)
+'''
+Output of df5:
+   Gender  Team
+0    Male     1
+1    Male     2
+2  Female     3
+3  Female     3
+4  Female     1
+'''
+print("\n")
+
+cross_tab = pd.crosstab(df5.Gender, df5.Team)  # Relationship between Gender and Team represented using a crosstab
+print(cross_tab)
+'''
+The relationship is:
+We have 1 Female in Team 1, 0 Female in Team 2 and 2 Females in Team 3
+We have 1 Male in Team 1, 1 Male in Team 2 and 0 Male in Team 3
+
+Output is as follows:
+Team    1  2  3
+Gender         
+Female  1  0  2
+Male    1  1  0
+'''
